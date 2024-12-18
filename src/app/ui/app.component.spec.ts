@@ -23,13 +23,13 @@ describe('AppComponent', () => {
   it(`should have as title 'clean-architecture-angular'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('clean-architecture-angular');
+    expect(app.title).toEqual('Arquitectura limpia funciona!!');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, clean-architecture-angular');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Arquitectura limpia funciona!!');
   });
 });

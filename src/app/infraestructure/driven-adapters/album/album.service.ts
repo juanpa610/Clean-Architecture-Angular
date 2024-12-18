@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AlbumGateway } from '../../../domain/models/Album/gateway/album.gateway';
 import { Observable } from 'rxjs';
 import { Album } from '../../../domain/models/Album/album.model';
 import { HttpClient } from '@angular/common/http';
+import { AlbumGateway } from '../../../domain/gateways/album.gateway';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,11 @@ export class AlbumService extends AlbumGateway {
     super();
   }
 
-  getByID(id: String): Observable<Album> {
+  getByID(id: number): Observable<Album> {
     return this.httpClient.get<Album>(this.urlApi + id).pipe((res) => res);
   }
 
   getAll(): Observable<Array<Album>> {
-    console.log('3 paso desde el servico ');
     return this.httpClient.get<Array<Album>>(this.urlApi).pipe((res) => res);
   }
 

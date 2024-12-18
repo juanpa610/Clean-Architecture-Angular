@@ -2,9 +2,10 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { routes } from '../app-routing.module';
-import { AlbumGateway } from '../domain/models/Album/gateway/album.gateway';
+
 import { AlbumService } from '../infraestructure/driven-adapters/album/album.service';
+import { routes } from '../ui/app-routing.module';
+import { AlbumGateway } from '../domain/gateways/album.gateway';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -16,6 +17,8 @@ export const appConfig: ApplicationConfig = {
         }
     ]
 };
+
+//* Esto le dice a Angular, "cuando alguien pida un AlbumGateway, dale un AlbumService
 
 //!
 //* Cuando se solicite una instancia de AlbumGateway en cualquier parte de la aplicacion, 
