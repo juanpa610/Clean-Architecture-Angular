@@ -2,7 +2,7 @@
 
 @for (album of albums; track album.id; let idx = $index) {
   <div>
-    <p>Almbun #{{ idx }} Title: {{ album.title }}</p>
+    <p>Album #{{ idx }} Title: {{ album.title }}</p>
   </div>
 } @empty {
   <li>There are no items.</li>
