@@ -1,31 +1,45 @@
 {
   "auth": {
-    "cleanarchitectureang98c740dd": {
+    "authcleanarchitjuan2519c7c7": {
       "customAuth": false,
       "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
-        },
-        "signupAttributes": [
-          "EMAIL",
-          "NICKNAME"
-        ],
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
       "providerPlugin": "awscloudformation",
-      "service": "Cognito"
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_authcleanarchitjuan2519c7c7_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "authcleanarchitjuan2519c7c7"
+        }
+      ]
+    },
+    "AMPLIFY_auth_authcleanarchitjuan2519c7c7_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "authcleanarchitjuan2519c7c7"
+        }
+      ]
+    },
+    "AMPLIFY_auth_authcleanarchitjuan2519c7c7_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "authcleanarchitjuan2519c7c7"
+        }
+      ]
+    },
+    "AMPLIFY_auth_authcleanarchitjuan2519c7c7_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "authcleanarchitjuan2519c7c7"
+        }
+      ]
     }
   }
 }

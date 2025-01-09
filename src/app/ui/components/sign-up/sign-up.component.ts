@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../infraestructure/driven-adapters/auth/auth.service';
 import { Router } from '@angular/router';
+import { autoSignIn } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-sign-up',
@@ -44,35 +45,35 @@ export class SignUpComponent {
 
   async registerUser() {
     const userDataToRegistration = {
-      username: this.signUpForm.value.email,
-      nickname: this.signUpForm.value.userName,
+      name: this.signUpForm.value.userName,
       password: this.signUpForm.value.password,
       email: this.signUpForm.value.email,
     }
 
     const response = await this.signUpService.signUp(userDataToRegistration);
 
-    if (response?.signUpStep === "CONFIRM_SIGN_UP") {
-      this.flagIsComfirmSignUp = true;
-    }
+    if (response?.signUpStep === "CONFIRM_SIGN_UP") this.flagIsComfirmSignUp = true;
   }
 
   async confirmSignUp() {
-
     const userDataToConfirm = {
       username: this.signUpForm.value.email,
       confirmationCode: this.code.value
     }
 
     const response = await this.signUpService.confirmSignUp(userDataToConfirm);
+    if (response.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
+      const nextStep = await this.signUpService.autoSignIn();
 
-    if (response?.signUpStep === "DONE") {
-      console.log('Successfully  signed up.');
-      this.signUpForm.reset();
-      this.code.reset();
-      alert('Registrado exitosamente.');
-      // this.flagIsComfirmSignUp = false;
-      this.route.navigate(['list-albums']);
+      if (nextStep.isSignedIn) {
+        this.signUpService.setSessionData();
+        // this.signUpForm.reset();
+        // this.code.reset();
+        // alert('Registrado exitosamente.');
+        // this.route.navigate(['list-albums']);
+        // await this.signUpService.getCurrentSession();
+        // this.signUpService.getCurrentUser();
+      }
     }
   }
 
