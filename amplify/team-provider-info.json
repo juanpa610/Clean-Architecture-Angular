@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cleanarchitectureang-dev-199ad-authRole",
+      "UnauthRoleArn": "arn:aws:iam::806458966552:role/amplify-cleanarchitectureang-dev-199ad-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::806458966552:role/amplify-cleanarchitectureang-dev-199ad-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-cleanarchitectureang-dev-199ad-deployment",
+      "UnauthRoleName": "amplify-cleanarchitectureang-dev-199ad-unauthRole",
+      "StackName": "amplify-cleanarchitectureang-dev-199ad",
+      "StackId": "arn:aws:cloudformation:us-east-1:806458966552:stack/amplify-cleanarchitectureang-dev-199ad/eaeeff60-cdde-11ef-83b9-1237097a97dd",
+      "AmplifyAppId": "d1uj5gebzgw2ch"
+    },
+    "categories": {
+      "auth": {
+        "cleanarchitectureang98c740dd": {}
+      }
+    }
+  }
+}
