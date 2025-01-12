@@ -13,22 +13,36 @@ import { CommonModule } from '@angular/common';
 export class SignInComponent {
 
   signInForm!: FormGroup;
+  isLoading: boolean = false;
 
-  constructor(private signInService: AuthService, private fb: FormBuilder) { }
+  constructor(private signInService: AuthService, private fb: FormBuilder) {
+    this.initiateFrom();
+  }
 
   initiateFrom() {
     this.signInForm = this.fb.group({
-      email: ['', Validators.required, Validators.email],
-      userName: ['', Validators.required, ],
-      password : ['', Validators.required, Validators.minLength(8)],
+      userName: ['', Validators.required,],
+      password: ['', Validators.required, Validators.minLength(8)],
     });
   }
 
-  onSubmit() {
-    if (this.signInForm.valid) {
-      // this.signInService.signIn(this.signInForm.value);
-    } else {
-      throw new Error('Method not implemented.');
+
+
+  async onSubmit(): Promise<void> {
+    if (this.signInForm.invalid) {
+
+      this.isLoading = true;
+      const loginData = this.signInForm.value;
+
+      try {
+        const user = await this.signInService.autoSignIn(loginData);
+        console.log(user);
+
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 

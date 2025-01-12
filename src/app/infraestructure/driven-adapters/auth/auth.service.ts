@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { signUp, confirmSignUp, autoSignIn } from 'aws-amplify/auth';
+import { signUp, confirmSignUp, signIn } from 'aws-amplify/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +29,18 @@ export class AuthService {
     });
 
     return nextStep;
+  }
+
+  async autoSignIn(userData: any) {
+    try {
+      const user = await signIn({
+        username: userData.username,
+        password: userData.password
+      });
+      return user;
+    } catch (error) {
+      console.error('Error al iniciar sesión: ', error);
+      throw error;
+    }
   }
 }
