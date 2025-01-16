@@ -58,7 +58,6 @@ export class SignUpComponent {
   }
 
   async confirmSignUp() {
-
     const userDataToConfirm = {
       username: this.signUpForm.value.email,
       confirmationCode: this.code.value
@@ -66,14 +65,25 @@ export class SignUpComponent {
 
     const response = await this.signUpService.confirmSignUp(userDataToConfirm);
 
-    if (response?.signUpStep === "DONE") {
-      console.log('Successfully  signed up.');
-      this.signUpForm.reset();
-      this.code.reset();
-      alert('Registrado exitosamente.');
-      // this.flagIsComfirmSignUp = false;
-      this.route.navigate(['list-albums']);
+    if (response.signUpStep === 'COMPLETE_AUTO_SIGN_IN') {
+      const nextStep = await this.signUpService.autoSignIn();
+
+      if (nextStep.isSignedIn) {
+        this.setDataAutoSignIn();
+      }
     }
+  }
+  async setDataAutoSignIn() {
+    const idToken = await this.signUpService.getCurrentSession();
+    sessionStorage.setItem('current_session_token', idToken.toString());
+    this.signUpForm.reset();
+    this.code.reset();
+    alert('Registrado exitosamente.');
+    this.route.navigate(['list-albums']);
+    let { username, userId } = await this.signUpService.getCurrentUser();
+    sessionStorage.setItem('current_user_id', userId.toString());
+    sessionStorage.setItem('current_user_name', username.toString());
+
   }
 
 }

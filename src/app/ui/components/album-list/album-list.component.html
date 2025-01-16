@@ -1,5 +1,7 @@
 <h1>Albumes</h1>
 
+<button (click)="signOut()"> Cerra Sesion</button>
+
 @for (album of albums; track album.id; let idx = $index) {
   <div>
     <p>Album #{{ idx }} Title: {{ album.title }}</p>
