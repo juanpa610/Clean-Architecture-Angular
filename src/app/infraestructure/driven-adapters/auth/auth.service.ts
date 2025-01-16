@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { signUp, confirmSignUp, autoSignIn, getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+import { signUp, confirmSignUp, signIn, autoSignIn, getCurrentUser, fetchAuthSession, signOut, JWT } from 'aws-amplify/auth';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,10 @@ export class AuthService {
       password: userData.password,
       options: {
         userAttributes: {
-          nickname: userData.name,
+          nickname: userData.nickname,
           email: userData.email,
         },
-        autoSignIn: true,
+        autoSignIn: true
       }
     });
 
@@ -34,6 +35,20 @@ export class AuthService {
     return nextStep;
   }
 
+  async signIn(userData: any) {
+    try {
+      const user = await signIn({
+        username: userData.userName,
+        password: userData.password
+      });
+      return user;
+    } catch (error) {
+      console.error('Error al iniciar sesión: ', error);
+      throw error;
+    }
+  }
+
+
   async autoSignIn() {
     const respAutoSignIn = await autoSignIn();
 
@@ -42,19 +57,23 @@ export class AuthService {
 
   async getCurrentUser() {
     const { username, userId, signInDetails } = await getCurrentUser();
-    console.log('next Step getCurrent USER', { username }, { userId }, { signInDetails });
+    console.log('username', { username, userId, signInDetails });
+    return { username, userId, signInDetails };
   }
 
   async getCurrentSession() {
-    console.log('naaaaaaaaaaaaaaaaaaa');
-    const nextStep = await fetchAuthSession();
-    console.log('next Step getCurrent SESSION', nextStep);
+    const response = await fetchAuthSession();
+    console.log('get ---------- ...  CurrentSession', response);
+    const tokenJWT = response.tokens?.idToken as JWT;
+    return tokenJWT;
   }
 
-  async setSessionData() {
-    const currentSession = await this.getCurrentSession();
-    console.log('currentSession', currentSession);
-    // sessionStorage.setItem('session_token', 'true');
+  async signOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 }

@@ -1,11 +1,12 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch } from '@angular/common/http';
 
 import { AlbumService } from '../infraestructure/driven-adapters/album/album.service';
 import { routes } from '../ui/app-routing.module';
 import { AlbumGateway } from '../domain/gateways/album.gateway';
+import { AuthInterceptor } from '../infraestructure/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -14,6 +15,11 @@ export const appConfig: ApplicationConfig = {
         {
             provide: AlbumGateway,
             useClass: AlbumService
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
         }
     ]
 };
