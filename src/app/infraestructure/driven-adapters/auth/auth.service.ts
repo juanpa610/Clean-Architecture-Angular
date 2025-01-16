@@ -30,8 +30,6 @@ export class AuthService {
       confirmationCode: userDataToConfirm.confirmationCode
     });
 
-    console.log('next Step CONFRIM sign up', isSignUpComplete, nextStep);
-
     return nextStep;
   }
 
@@ -48,7 +46,6 @@ export class AuthService {
     }
   }
 
-
   async autoSignIn() {
     const respAutoSignIn = await autoSignIn();
 
@@ -57,12 +54,12 @@ export class AuthService {
 
   async getCurrentUser() {
     const { username, userId, signInDetails } = await getCurrentUser();
-    console.log('username', { username, userId, signInDetails });
+    console.log('username', {username, userId, signInDetails});
     return { username, userId, signInDetails };
   }
 
   async getCurrentSession() {
-    const response = await fetchAuthSession();
+    const response = await fetchAuthSession() ;
     console.log('get ---------- ...  CurrentSession', response);
     const tokenJWT = response.tokens?.idToken as JWT;
     return tokenJWT;

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../infraestructure/driven-adapters/auth/auth.service';
 import { Router } from '@angular/router';
-import { autoSignIn } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-sign-up',
@@ -45,7 +44,8 @@ export class SignUpComponent {
 
   async registerUser() {
     const userDataToRegistration = {
-      name: this.signUpForm.value.userName,
+      username: this.signUpForm.value.email,
+      nickname: this.signUpForm.value.userName,
       password: this.signUpForm.value.password,
       email: this.signUpForm.value.email,
     }
@@ -68,7 +68,6 @@ export class SignUpComponent {
 
       if (nextStep.isSignedIn) {
         this.setDataAutoSignIn();
-
       }
     }
   }
