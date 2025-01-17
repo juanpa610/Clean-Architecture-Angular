@@ -41,10 +41,10 @@ describe('SignInComponent', () => {
       password: '',
     });
 
+    await component.onSubmit(); 
+    await fixture.whenStable();
+
     expect(component.signInForm.valid).toBeFalsy();
-
-    await component.onSubmit();
-
     expect(mockSignInService.signIn).not.toHaveBeenCalled();
     expect(component.isLoading).toBe(false);
   });
@@ -106,11 +106,13 @@ describe('SignInComponent', () => {
     expect(setDataAutoSignInSpy).toHaveBeenCalled();
   });
 
-  it('debería guardar datos en sessionStorage si el usuario está autenticado', async () => {
+  it('debería guardar datos en sessionStorage si el usuario está autenticaro', async () => {
     component.signInForm.setValue({
       userName: 'name test user',
       password: 'test password',
     });
+
+    spyOn(window, 'alert');
 
     const mockUser = { isSignedIn: true };
     mockSignInService.signIn.and.returnValue(Promise.resolve(mockUser));
@@ -123,15 +125,19 @@ describe('SignInComponent', () => {
 
     const setDataAutoSignInSpy = spyOn(component, 'setDataAutoSignIn').and.callThrough();
 
+    fixture.detectChanges();
+
     await component.onSubmit();
 
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(setDataAutoSignInSpy).toHaveBeenCalled();
 
     expect(sessionStorage.getItem('current_session_token')).toBeTruthy();
     expect(sessionStorage.getItem('current_user_id')).toBeTruthy();
     expect(sessionStorage.getItem('current_user_name')).toBeTruthy();
+
+    expect(window.alert).toHaveBeenCalledWith('Logueado exitosamente.');
   });
 
 
