@@ -42,6 +42,7 @@ describe('SignInComponent', () => {
     });
 
     await component.onSubmit(); 
+    fixture.detectChanges();
     await fixture.whenStable();
 
     expect(component.signInForm.valid).toBeFalsy();
@@ -59,25 +60,36 @@ describe('SignInComponent', () => {
     mockSignInService.signIn.and.returnValue(Promise.resolve(mockIsSignedIn));
 
     await component.onSubmit();
+    await fixture.whenStable();
+    
     fixture.detectChanges();
+
     const controlPasswordForm = component.signInForm.controls['password'];
     expect(controlPasswordForm.status).toEqual('INVALID');
     expect(controlPasswordForm.errors?.["minlength"].requiredLength).toEqual(8);
   });
 
-  it('should fire required fields validation for form', () => {
+  it('should fire required fields validation for form', async () => {
     component.signInForm.controls['userName'].setValue('');
     component.signInForm.controls['password'].setValue('');
-    component.onSubmit();
+
+    await component.onSubmit();
     fixture.detectChanges();
+
+    await fixture.whenStable();
+
     expect(component.signInForm.valid).toBeFalsy();
   });
 
-  it('should fire required fields validation for FORM', () => {
+  it('should fire required fields validation for FORM', async () => {
     component.signInForm.controls['userName'].setValue('jaramilloorregojuanpablo@gmail.com');
     component.signInForm.controls['password'].setValue('juanjara');
-    component.onSubmit();
+
+    await component.onSubmit();
     fixture.detectChanges();
+
+    await fixture.whenStable();
+
     expect(component.signInForm.valid).toBeTruthy();
   });
 
