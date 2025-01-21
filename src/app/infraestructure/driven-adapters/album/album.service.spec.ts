@@ -32,7 +32,6 @@ describe('AlbumService', () => {
     req.flush(mockAlbum);
   });
 
-
   it('should fetch all albums', () => {
     const mockAlbums: Album[] = [
       { userId: 1, id: 1, title: 'Album 1' },

@@ -1,11 +1,21 @@
 <h1>Albumes</h1>
 
-<button (click)="signOut()"> Cerra Sesion</button>
+<app-post />
 
-@for (album of albums; track album.id; let idx = $index) {
-  <div>
-    <p>Album #{{ idx }} Title: {{ album.title }}</p>
-  </div>
-} @empty {
-  <li>There are no items.</li>
-}
+<ng-container *ngIf="subjectPost$ | async as subject; else noSubject">
+  <h3>{{ subject | json}}</h3>
+</ng-container>
+<ng-template #noSubject>
+  <p>2 Loading...</p>
+</ng-template>
+
+<button (click)="signOut()"> Cerra Sesion</button>
+<hr>
+
+<section class="container__album">
+  @for (album of albums; track album.id; let idx = $index) {
+    <app-album [album]="album" (delete)="deleteAlbum($event)"></app-album>
+  } @empty {
+    <li>There are no items.</li>
+  }
+</section>

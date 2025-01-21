@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInComponent } from './sign-in.component';
 import { AuthService } from '../../../infraestructure/driven-adapters/auth/auth.service';
 import { Router } from '@angular/router';
-import { signOut } from 'aws-amplify/auth';
+import { Component } from '@angular/core';
 
+export class MockSignInComponent{};
 describe('SignInComponent', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
@@ -24,6 +25,15 @@ describe('SignInComponent', () => {
     fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    mockSignInService.signIn.calls.reset();
+    mockSignInService.getCurrentSession.calls.reset();
+    mockSignInService.getCurrentUser.calls.reset();
+    route.navigate.calls.reset();
+    component.signInForm.reset();
+    TestBed.resetTestingModule();
   });
 
   it('should create', () => {
@@ -61,7 +71,7 @@ describe('SignInComponent', () => {
 
     await component.onSubmit();
     await fixture.whenStable();
-    
+
     fixture.detectChanges();
 
     const controlPasswordForm = component.signInForm.controls['password'];
@@ -151,7 +161,6 @@ describe('SignInComponent', () => {
 
     expect(window.alert).toHaveBeenCalledWith('Logueado exitosamente.');
   });
-
 
   it('Should handle errors if service method signIn fail', async () => {
     component.signInForm.setValue({

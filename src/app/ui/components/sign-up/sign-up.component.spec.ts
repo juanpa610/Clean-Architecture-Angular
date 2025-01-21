@@ -19,4 +19,13 @@ describe('SignUpComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should verify that the value is correct', () => {
+    const valueTest = 1;
+    const arrayTest = [1, 2, 3];
+
+    expect(true).toBeTruthy();
+    expect(arrayTest).toContain(valueTest);
+    expect(valueTest).toEqual(1);
+  });
 });

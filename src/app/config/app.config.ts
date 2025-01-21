@@ -7,6 +7,8 @@ import { AlbumService } from '../infraestructure/driven-adapters/album/album.ser
 import { routes } from '../ui/app-routing.module';
 import { AlbumGateway } from '../domain/gateways/album.gateway';
 import { AuthInterceptor } from '../infraestructure/interceptors/auth.interceptor';
+import { PostGateway } from '../domain/gateways/Post.gateway';
+import { PostService } from '../infraestructure/driven-adapters/post/post.service';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -15,6 +17,10 @@ export const appConfig: ApplicationConfig = {
         {
             provide: AlbumGateway,
             useClass: AlbumService
+        },
+        {
+            provide: PostGateway,
+            useClass: PostService
         },
         {
             provide: HTTP_INTERCEPTORS,

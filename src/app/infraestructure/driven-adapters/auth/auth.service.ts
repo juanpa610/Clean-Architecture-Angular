@@ -23,7 +23,6 @@ export class AuthService {
 
     return nextStep;
   }
-
   async confirmSignUp(userDataToConfirm: any) {
     const { isSignUpComplete, nextStep } = await confirmSignUp({
       username: userDataToConfirm.username,
@@ -32,7 +31,6 @@ export class AuthService {
 
     return nextStep;
   }
-
   async signIn(userData: any) {
     try {
       const user = await signIn({
@@ -45,28 +43,25 @@ export class AuthService {
       throw error;
     }
   }
-
   async autoSignIn() {
     const respAutoSignIn = await autoSignIn();
 
     return respAutoSignIn;
   }
-
   async getCurrentUser() {
     const { username, userId, signInDetails } = await getCurrentUser();
-    console.log('username', {username, userId, signInDetails});
+
     return { username, userId, signInDetails };
   }
-
   async getCurrentSession() {
     const response = await fetchAuthSession() ;
-    console.log('get ---------- ...  CurrentSession', response);
+
     const tokenJWT = response.tokens?.idToken as JWT;
     return tokenJWT;
   }
-
   async signOut() {
     try {
+      sessionStorage.clear();
       await signOut();
     } catch (error) {
       console.error(error);

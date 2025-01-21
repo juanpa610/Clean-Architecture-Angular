@@ -5,6 +5,8 @@ import { AlbumUseCases } from '../../../application/album/useCases/almbun-use-ca
 import { AlbumGateway } from '../../../domain/gateways/album.gateway';
 import { AlbumService } from '../../../infraestructure/driven-adapters/album/album.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PostGateway } from '../../../domain/gateways/Post.gateway';
+import { PostService } from '../../../infraestructure/driven-adapters/post/post.service';
 
 describe('AlbumListComponent', () => {
   let component: AlbumListComponent;
@@ -15,7 +17,8 @@ describe('AlbumListComponent', () => {
       imports: [AlbumListComponent, HttpClientTestingModule],
       providers: [
         AlbumUseCases,
-        { provide: AlbumGateway, useClass: AlbumService }
+        { provide: AlbumGateway, useClass: AlbumService },
+        { provide: PostGateway, useClass: PostService },
       ]
     })
     .compileComponents();

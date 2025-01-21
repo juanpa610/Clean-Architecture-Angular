@@ -9,7 +9,6 @@ import { ApiResponse } from '../../../domain/interfaces/response.interface';
 @Injectable({
     providedIn: 'root'
 })
-
 export class AlbumUseCases {
     constructor(private _albumGateWay: AlbumGateway) { }
 

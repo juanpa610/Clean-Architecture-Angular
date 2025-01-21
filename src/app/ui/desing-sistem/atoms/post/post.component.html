@@ -1,0 +1,11 @@
+<section class="container__post" *ngIf="(subjectPost$ | async) as userData; else loading">
+
+    <button (click)="changePost()">Change Post</button>
+
+    <h3>{{ userData | json }}</h3>
+
+</section>
+
+<ng-template #loading>
+    <p>Loading...</p>
+</ng-template>
