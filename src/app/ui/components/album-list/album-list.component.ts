@@ -24,16 +24,24 @@ export class AlbumListComponent {
   subjectPost$: Observable<Post> = this.postUseCases.getPostSubject();
 
   constructor(private albumUseCases: AlbumUseCases, private authService: AuthService, private route: Router) {
-    this.albumUseCases.getAlbumById(2).subscribe((albums) => {
-      // console.log(albums)
-    });
-    this.albumUseCases.getAllAlbum().subscribe((albums) => {
-      console.log(albums);
-      this.albums = albums.data;
-    });
   }
 
   ngOnInit(): void {
+    this.getAlbums();
+  }
+
+  getAlbums() {
+    this.albumUseCases.getAllAlbum().subscribe((albums) => {
+      this.albums = albums.data;
+      console.log(this.albums);
+    });
+  }
+  getAlbumById(id: number): Album {
+    let album!: Album;
+    this.albumUseCases.getAlbumById(id).subscribe((data) => {
+      album = data.data;
+    });
+    return album;
   }
 
   async signOut() {
@@ -42,9 +50,9 @@ export class AlbumListComponent {
   }
 
   deleteAlbum($event: Album) {
-    let album : Album = $event;
-    let indexOfAlbum = this.albums.findIndex( album => album.id === $event.id);
-    
+    let album: Album = $event;
+    let indexOfAlbum = this.albums.findIndex(album => album.id === $event.id);
+
     if (indexOfAlbum === -1) {
       return;
     }

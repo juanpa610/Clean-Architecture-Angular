@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignUpComponent } from './sign-up.component';
+import { RouterLink } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -8,7 +10,7 @@ describe('SignUpComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignUpComponent]
+      imports: [SignUpComponent, RouterTestingModule.withRoutes([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SignUpComponent);

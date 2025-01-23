@@ -14,7 +14,7 @@
 
 <section class="container__album">
   @for (album of albums; track album.id; let idx = $index) {
-    <app-album [album]="album" (delete)="deleteAlbum($event)"></app-album>
+    <app-album data-test-id="album-card" [album]="album" (delete)="deleteAlbum($event)"></app-album>
   } @empty {
     <li>There are no items.</li>
   }

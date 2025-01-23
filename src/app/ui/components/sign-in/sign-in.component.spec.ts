@@ -2,25 +2,33 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignInComponent } from './sign-in.component';
 import { AuthService } from '../../../infraestructure/driven-adapters/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
-export class MockSignInComponent{};
+export class MockSignInComponent { };
 describe('SignInComponent', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
 
   const mockSignInService = jasmine.createSpyObj('AuthService', ['signIn', 'getCurrentSession', 'getCurrentUser']);
-  const route = jasmine.createSpyObj('Router', ['navigate']);
+
+  let router: Router;
+  let navigateSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignInComponent],
+      imports: [
+        SignInComponent,
+        RouterTestingModule.withRoutes([]),
+      ],
       providers: [
-        { provide: AuthService, useValue: mockSignInService },
-        { provide: Router, useValue: route },
+        { provide: AuthService, useValue: mockSignInService }
       ],
     }).compileComponents();
+
+    router = TestBed.inject(Router);
+    navigateSpy = spyOn(router, 'navigate'); 
 
     fixture = TestBed.createComponent(SignInComponent);
     component = fixture.componentInstance;
@@ -31,7 +39,7 @@ describe('SignInComponent', () => {
     mockSignInService.signIn.calls.reset();
     mockSignInService.getCurrentSession.calls.reset();
     mockSignInService.getCurrentUser.calls.reset();
-    route.navigate.calls.reset();
+    // route.navigate.calls.reset();
     component.signInForm.reset();
     TestBed.resetTestingModule();
   });
@@ -51,7 +59,7 @@ describe('SignInComponent', () => {
       password: '',
     });
 
-    await component.onSubmit(); 
+    await component.onSubmit();
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -123,7 +131,7 @@ describe('SignInComponent', () => {
     await component.onSubmit();
     fixture.detectChanges();
 
-    expect(route.navigate).toHaveBeenCalledWith(['list-albums']);
+    expect(navigateSpy).toHaveBeenCalledWith(['list-albums']);
     expect(component.isLoading).toBe(false);
     expect(setDataAutoSignInSpy).toHaveBeenCalled();
   });
