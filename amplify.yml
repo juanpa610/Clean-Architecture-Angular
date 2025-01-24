@@ -1,40 +1,25 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
-trigger:
-- main
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '20.18.1'
-    displayName: 'Install Node.js'
-
-  - script: |
-        npm install
-      displayName: 'Instalar dependencias'
-
-  - script: |
-      npm run build host 
-    displayName: 'Compilar proyecto Host'
-  
-  - script: |
-      npm run build micro-front 
-    displayName: 'Compilar proyecto Microfrontend'
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/dist/host'
-      artifactName: 'host'
-      publishLocation: 'pipeline'
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(System.DefaultWorkingDirectory)/dist/micro-front'
-      artifactName: 'micro-front'
-      publishLocation: 'pipeline'
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - '# Execute Amplify CLI with the helper script'
+        - amplifyPush --simple
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci --cache .npm --prefer-offline
+        - 'nvm install 18.19.0'
+        - 'nvm use 18.19.0'
+        - 'npm install'
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist/clean-architecture-angular/browser
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .npm/**/*
